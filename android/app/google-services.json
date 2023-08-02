@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "461165839748",
+    "project_id": "edudoc-53ae7",
+    "storage_bucket": "edudoc-53ae7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461165839748:android:bd6318b612ae5a63d3c9d1",
+        "android_client_info": {
+          "package_name": "com.example.edudoc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461165839748-2i4hlb8lgfi0rlq030nj1joedq30asuh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd1SAWJ657Zc91JqCWZ-VNPLrpzC1fqbA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "461165839748-2i4hlb8lgfi0rlq030nj1joedq30asuh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
