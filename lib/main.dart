@@ -1,11 +1,10 @@
-import 'package:edudoc/app/modules/splash_module/splash_binding.dart';
-import 'package:edudoc/app/modules/splash_module/splash_controller.dart';
 import 'package:edudoc/app/routes/app_routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'app/modules/splash_module/splash_controller.dart';
 import 'app/routes/app_pages.dart';
 import 'firebase_options.dart';
 
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       getPages: AppPages.pageList,
       initialRoute: AppRoutes.splashScreen,
-      initialBinding: SplashBinding(),
+      // initialBinding: SplashBinding(),
       onInit: SplashController().start(),
       // home: SplashController(),
     );

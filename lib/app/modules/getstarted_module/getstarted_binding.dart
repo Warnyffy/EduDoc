@@ -5,6 +5,7 @@ import 'getstarted_controller.dart';
 class GetstartedBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<GetstartedController>(() => GetstartedController());
+    Get.lazyPut<GetstartedController>(() => GetstartedController(),
+        fenix: true);
   }
 }

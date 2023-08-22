@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 
 class SplashController extends GetxController {
   start() {
-    // Delay for 3 seconds
-    Future.delayed(const Duration(seconds: 6), () {
+    // Delay for 5 seconds
+    Future.delayed(const Duration(seconds: 5), () {
       Get.offAndToNamed(AppRoutes.getStartedScreen);
     });
   }
