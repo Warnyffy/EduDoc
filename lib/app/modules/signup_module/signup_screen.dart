@@ -39,65 +39,73 @@ class SignupPage extends GetView<SignupController> {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 60),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Name",
-                      style: AppStyles.textfieldText,
-                    ),
-                    SizedBox(height: 10),
-                    CustomTextField(
-                      controller: controller.nameController,
-                      hint: "Andy Warren",
-                      isEmail: false,
-                      isObscureText: false,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 15),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Email",
-                      style: AppStyles.textfieldText,
-                    ),
-                    SizedBox(height: 10),
-                    CustomTextField(
-                      controller: controller.emailController,
-                      hint: "example@email.com",
-                      isEmail: true,
-                      isObscureText: false,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 15),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Password",
-                      style: AppStyles.textfieldText,
-                    ),
-                    SizedBox(height: 10),
-                    Obx(
-                      () => CustomTextField(
-                        controller: controller.passwordController,
-                        hint: "* * * * * * * *",
-                        isEmail: true,
-                        isObscureText: controller.isObscureText.value,
-                        suffixIcon: controller.isObscureText.value
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        onPressSuffix: () {
-                          controller.isObscureText.value =
-                              !controller.isObscureText.value;
-                        },
+                Form(
+                  key: controller.registerFormKey,
+                  child: Column(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Name",
+                            style: AppStyles.textfieldText,
+                          ),
+                          SizedBox(height: 10),
+                          CustomTextField(
+                            controller: controller.nameController,
+                            hint: "Andy Warren",
+                            isEmail: false,
+                            isObscureText: false,
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                      SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Email",
+                            style: AppStyles.textfieldText,
+                          ),
+                          SizedBox(height: 10),
+                          CustomTextField(
+                            controller: controller.emailController,
+                            hint: "example@email.com",
+                            isEmail: true,
+                            isObscureText: false,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Password",
+                            style: AppStyles.textfieldText,
+                          ),
+                          SizedBox(height: 10),
+                          Obx(
+                            () => CustomTextField(
+                              controller: controller.passwordController,
+                              hint: "* * * * * * * *",
+                              isEmail: true,
+                              isObscureText: controller.isObscureText.value,
+                              suffixIcon: controller.isObscureText.value
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              onPressSuffix: () {
+                                controller.isObscureText.value =
+                                    !controller.isObscureText.value;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
+
                 SizedBox(
                   height: 24,
                 ),
@@ -112,7 +120,10 @@ class SignupPage extends GetView<SignupController> {
                   child: CustomButton(
                     color: AppColors.primaryColor,
                     text: "SIGN UP",
-                    onTap: () {},
+                    onTap: () {
+                      controller.registerUser();
+                      // Get.offAllNamed(AppRoutes.succesScreen);
+                    },
                   ),
                 ),
                 SizedBox(
@@ -130,7 +141,7 @@ class SignupPage extends GetView<SignupController> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Get.toNamed(AppRoutes.loginScreen);
+                        Get.offAndToNamed(AppRoutes.loginScreen);
                       },
                       child: Text(
                         "Sign in",
