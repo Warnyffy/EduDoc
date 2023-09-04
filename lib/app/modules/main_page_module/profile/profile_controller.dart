@@ -1,3 +1,8 @@
 import 'package:get/get.dart';
 
-class ProfileController extends GetxController {}
+import '../../../models/user_model.dart';
+import '../../../services/auth.controller.dart';
+
+class ProfileController extends GetxController {
+  UserModel user = Get.put(AuthController()).user;
+}

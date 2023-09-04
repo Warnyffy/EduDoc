@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:screenshot/screenshot.dart';
 
 import '../../services/firebase_controller.dart';
+import '../../utils/app_colors.dart';
 
 class SignupController extends GetxController {
   FirebaseController _firebaseController = FirebaseController();
@@ -10,20 +12,12 @@ class SignupController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   var isObscureText = true.obs;
+  var isSigning = false.obs;
 
   final GlobalKey<FormState> registerFormKey =
       GlobalKey<FormState>(debugLabel: "__REGISTERFORMKEY");
 
-  final registerUsername = GetStorage();
-  final registerEmail = GetStorage();
-  final registerPassword = GetStorage();
-  // String? get userType => _lottieSplashController.userType.read('USERTYPE');
-
   String? validateUsername(String value) {
-    // if (!GetUtils.isUsername(value)) {
-    //   return "Please Enter a Valid Name without space bar";
-    // }
-    // return null;
     String pattern = r'^[#.0-9a-zA-Z\s,-]+$';
     RegExp addressPattern = RegExp(pattern);
     if (!addressPattern.hasMatch(value)) {
@@ -49,24 +43,40 @@ class SignupController extends GetxController {
     return null;
   }
 
+  // Create an instance of ScreenshotController
+  ScreenshotController screenshotController = ScreenshotController();
+  Widget imgPlaceHolder({required String userName}) {
+    return Container(
+      height: 40,
+      width: 40,
+      decoration: BoxDecoration(
+        color: AppColors.customLightPurple,
+        borderRadius: BorderRadius.circular(25),
+      ),
+      child: Center(child: Text(userName.split('').first.toUpperCase())),
+    );
+  }
+
+  Future<Uint8List> takePicture(String userName) async {
+    return await screenshotController
+        .captureFromWidget(imgPlaceHolder(userName: userName));
+  }
+
   void registerUser() async {
     final isValid = registerFormKey.currentState!.validate();
     if (!isValid) {
       return;
     }
-    // isRegistring.value = true;
-    registerUsername.write('USERNAME', nameController.text.trim());
-    registerEmail.write('EMAIL', emailController.text.trim());
-    registerPassword.write('PASSWORD', passwordController.text.trim());
+    isSigning.value = true;
+    takePicture(nameController.text.trim());
 
-    debugPrint(registerUsername.read('USERNAME'));
-    debugPrint(registerEmail.read('EMAIL'));
-    debugPrint(registerPassword.read('PASSWORD'));
+    await _firebaseController.createUser(
+      name: nameController.text.trim(),
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+      profileImage: await takePicture(nameController.text.trim()),
+    );
 
-    await _firebaseController.createUser(registerUsername.read('USERNAME'),
-        registerEmail.read('EMAIL'), registerPassword.read('PASSWORD'));
-    // Get.toNamed(AppRoutes.OTPSCREEN);
-
-    // isRegistring.value = false;
+    // isSigning.value = false;
   }
 }

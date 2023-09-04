@@ -1,139 +1,139 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edudoc/app/utils/app_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:mime/mime.dart';
 
+import '../models/user_model.dart';
 import '../routes/app_routes.dart';
 
 class FirebaseController extends GetxController {
   static FirebaseController instance = Get.find();
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
-
-  late Rx<User?> _firebaseUser;
-
-  User? get user => _auth.currentUser;
-
-  String? userName;
-  String? userEmail;
-  String? userPassword;
-
-  final userState = GetStorage();
-  final storeName = GetStorage();
-  final storeEmail = GetStorage();
-  final storePassword = GetStorage();
-
-  @override
-  void onReady() {
-    super.onReady();
-    _firebaseUser = Rx<User?>(_auth.currentUser);
-    _firebaseUser.bindStream(_auth.userChanges());
+  String _getImageExtension(Uint8List byteData) {
+    return lookupMimeType('', headerBytes: byteData)!.split('/').last;
   }
 
-  // this make sure that anytime the user authentication changes the user info will update
-  @override
-  void onInit() {
-    super.onInit();
-
-    _firebaseUser.bindStream(_auth.authStateChanges());
-  }
-
-  createUser(String name, String email, String password) async {
-    // final uid = user!.uid;
+  createUser({
+    required String name,
+    required String email,
+    required String password,
+    required Uint8List profileImage,
+  }) async {
     CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection("EDUDOC_Users");
+        FirebaseFirestore.instance.collection("Edudoc_Users");
 
-    Map<String, String> userData = {
-      // "ID": uid,
-      "Name": name,
-      "Email": email,
-      "Password": password
-    };
-
-    await _auth
-        .createUserWithEmailAndPassword(email: email, password: password)
-        .then((value) => actionAfterRegister(collectionReference, userData))
-        .catchError(
-          (onError) => Get.snackbar(
-            "EDUDOC Error",
-            onError.message,
-            backgroundColor: AppColors.customWhite,
-            icon: Image.asset("assets/images/launcher.png"),
-            duration: Duration(seconds: 5),
-            isDismissible: true,
-            // padding: EdgeInsets.symmetric(horizontal: 10),
-          ),
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      dbRegistration(collectionReference, userCredential, name, email,
+          profileImage, password);
+    } on FirebaseAuthException catch (fbException) {
+      if (fbException.code == 'email-already-in-use') {
+        Get.snackbar(
+          "Registration Failed",
+          fbException.message!,
+          backgroundColor: AppColors.customWhite,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          icon: Image.asset("assets/images/launcher.png"),
+          duration: const Duration(seconds: 4),
+          isDismissible: true,
         );
+      }
+    } catch (e) {
+      Get.snackbar(
+        "Registration Failed",
+        "$e",
+        backgroundColor: AppColors.customWhite,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        icon: Image.asset("assets/images/launcher.png"),
+        duration: const Duration(seconds: 4),
+        isDismissible: true,
+      );
+    }
   }
 
-  actionAfterRegister(CollectionReference<Object?> collectionReference,
-      Map<String, String> userData) async {
-    // collectionReference.add(userData).then((value) => null);
-    await collectionReference.doc(user!.uid).set(userData);
-    await collectionReference.doc(user!.uid).get().then((value) {
-      userName = value.get("Name");
-      userEmail = value.get("Email");
-      userPassword = value.get("Password");
+  /// method to save [UserModel] and [Profile] data to Cloud Firestore
+  Future<UserModel> dbRegistration(
+    CollectionReference<Object?> collectionReference,
+    UserCredential userCredential,
+    String username,
+    String email,
+    Uint8List profileImage,
+    String password,
+  ) async {
+    User user = userCredential.user!;
+    final _storageInstance = FirebaseStorage.instance;
+    String? profilePic;
+
+    final String fileExtension = _getImageExtension(profileImage);
+    final metadata = SettableMetadata(contentType: 'image/$fileExtension');
+
+    final UploadTask uploadTask = _storageInstance
+        .ref('profilePictures/')
+        .child(user.uid)
+        .putData(profileImage, metadata);
+
+    await uploadTask.then((e) async {
+      profilePic = await e.ref.getDownloadURL();
     });
-    Get.snackbar(
-      "EDUDOC Success",
-      "You have succesfully Registered in the database",
-      backgroundColor: AppColors.customWhite,
-      icon: Image.asset("assets/images/launcher.png"),
-      duration: Duration(seconds: 5),
-      isDismissible: true,
-      // padding: EdgeInsets.symmetric(horizontal: 10),
+
+    UserModel userModel = UserModel(
+      uid: user.uid,
+      name: username,
+      email: email,
+      profileImage: profilePic!,
+      password: password,
     );
-    storeName.write("USERNAME", userName);
-    storeEmail.write("USEREMAIL", userEmail);
-    storePassword.write("USERPASSWORD", userPassword);
+
+    await collectionReference.doc(user.uid).set(userModel.toMap());
+    Get.snackbar(
+      "Sign up Success",
+      "$username, you have Succesfully created an account in EduDoc",
+      backgroundColor: AppColors.customWhite,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      icon: Image.asset("assets/images/launcher.png"),
+      duration: const Duration(seconds: 4),
+      isDismissible: true,
+    );
     Get.offAndToNamed(AppRoutes.succesScreen);
-    userState.write('isIN', true);
+    return userModel;
   }
 
   login(String email, String password) async {
     CollectionReference collectionReference =
         FirebaseFirestore.instance.collection("EDUDOC_Users");
 
-    await _auth
+    await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) => actionAfterLogIn(collectionReference))
         .catchError(
           (onError) => Get.snackbar(
-            "EDUDOC Error",
+            "Login Failed",
             onError.message,
             backgroundColor: AppColors.customWhite,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             icon: Image.asset("assets/images/launcher.png"),
             duration: Duration(seconds: 5),
             isDismissible: true,
-            // padding: EdgeInsets.symmetric(horizontal: 10),
           ),
         );
   }
 
   actionAfterLogIn(CollectionReference<Object?> collectionReference) async {
-    await collectionReference.doc(user!.uid).get().then((value) {
-      userName = value.get("Name");
-      userEmail = value.get("Email");
-      userPassword = value.get("Password");
-    });
-
-    storeName.write("USERNAME", userName);
-    storeEmail.write("USEREMAIL", userEmail);
-    storePassword.write("USERPASSWORD", userPassword);
-    userState.write('isIN', true);
     Get.snackbar(
-      "EDUDUC Success",
+      "Login Success",
       "You have Succesfully Logged In",
       backgroundColor: AppColors.customWhite,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       icon: Image.asset("assets/images/launcher.png"),
       duration: Duration(seconds: 5),
       isDismissible: true,
-      // padding: EdgeInsets.symmetric(horizontal: 10),
     );
     Get.offAllNamed(AppRoutes.bottomnavScreen);
-    // },
   }
 }

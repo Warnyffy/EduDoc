@@ -10,7 +10,7 @@ class LoginController extends GetxController {
   final passwordController = TextEditingController();
 
   var isObscureText = true.obs;
-  RxBool isLogin = false.obs;
+  var isLogin = false.obs;
 
   final GlobalKey<FormState> loginFormKey =
       GlobalKey<FormState>(debugLabel: "__LOGINFORMKEY");
