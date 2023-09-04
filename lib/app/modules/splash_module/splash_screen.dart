@@ -12,41 +12,45 @@ class SplashPage extends GetView<SplashController> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Container(
-              color: AppColors.primaryColor,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: size.height / 2.2),
+    return GetBuilder(
+        init: Get.put(SplashController()),
+        builder: (controller) {
+          return Scaffold(
+            body: Stack(
+              children: [
+                Positioned.fill(
+                  child: Container(
+                    color: AppColors.primaryColor,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SvgPicture.asset("assets/images/logo.svg"),
-                        const Text("EduDoc", style: AppStyles.logoText),
+                        Padding(
+                          padding: EdgeInsets.only(top: size.height / 2.2),
+                          child: Column(
+                            children: [
+                              SvgPicture.asset("assets/images/logo.svg"),
+                              const Text("EduDoc", style: AppStyles.logoText),
+                            ],
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 16),
+                          child: SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(
+                              color: AppColors.customWhite,
+                              strokeWidth: 3,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 16),
-                    child: SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: CircularProgressIndicator(
-                        color: AppColors.customWhite,
-                        strokeWidth: 3,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
+        });
   }
 }

@@ -14,13 +14,14 @@ class CustomButton extends StatelessWidget {
   final String text;
   Color? color = AppColors.primaryColor;
   final void Function() onTap;
+  double? width = 270;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 270,
+        width: width,
         padding: EdgeInsets.only(
           left: 32,
           right: 32,

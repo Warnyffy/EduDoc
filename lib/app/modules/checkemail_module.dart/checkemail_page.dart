@@ -1,16 +1,14 @@
-import 'package:edudoc/app/routes/app_routes.dart';
-import 'package:edudoc/app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../../routes/app_routes.dart';
+import '../../utils/app_colors.dart';
 import '../../utils/app_styles.dart';
 import '../../widgets/buttons.dart';
-import '../../widgets/textfields.dart';
-import 'forgotpassword_controller.dart';
+import 'checkemail_controller.dart';
 
-class ForgotPasswordPage extends GetView<ForgotPasswordController> {
-  const ForgotPasswordPage({super.key});
+class CheckEmailPage extends GetView<CheckEmailController> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -28,47 +26,29 @@ class ForgotPasswordPage extends GetView<ForgotPasswordController> {
               children: [
                 Center(
                   child: Text(
-                    'Forgot Password ?',
+                    'Check Email',
                     style: AppStyles.headingText,
                   ),
                 ),
                 SizedBox(height: 15),
                 Text(
-                  'To reset your password, you need to input your email that can be authenticated',
+                  'We have sent the reset password to the email address brandonelouis@gmial.com',
                   style: AppStyles.subHeadingText,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 55),
                 Center(
-                    child:
-                        SvgPicture.asset("assets/images/forgot_password.svg")),
+                    child: SvgPicture.asset("assets/images/check_email.svg")),
                 SizedBox(height: 70),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Email",
-                      style: AppStyles.textfieldText,
-                    ),
-                    SizedBox(height: 10),
-                    CustomTextField(
-                      controller: controller.emailController,
-                      hint: "example@email.com",
-                      isEmail: true,
-                      isObscureText: false,
-                    ),
-                  ],
-                ),
+                SizedBox(height: 15),
                 SizedBox(
-                  height: 40,
+                  height: 24,
                 ),
                 Center(
                   child: CustomButton(
                     color: AppColors.primaryColor,
-                    text: "RESET PASSWORD",
-                    onTap: () {
-                      Get.toNamed(AppRoutes.checkemailScreen);
-                    },
+                    text: "OPEN EMAIL",
+                    onTap: () {},
                   ),
                 ),
                 SizedBox(
@@ -79,9 +59,32 @@ class ForgotPasswordPage extends GetView<ForgotPasswordController> {
                     color: AppColors.customLightPurple,
                     text: "BACK TO LOGIN",
                     onTap: () {
-                      Get.offAndToNamed(AppRoutes.loginScreen);
+                      Get.offAllNamed(AppRoutes.loginScreen);
                     },
                   ),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "You have not received the email?",
+                      style: AppStyles.littleText,
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        "Resend",
+                        style: AppStyles.littleText.copyWith(
+                          decoration: TextDecoration.underline,
+                          color: AppColors.secondaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
