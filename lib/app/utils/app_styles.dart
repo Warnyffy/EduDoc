@@ -15,6 +15,12 @@ class AppStyles {
     fontWeight: FontWeight.w700,
     fontFamily: 'DMSans',
   );
+  static const profileName = TextStyle(
+    color: AppColors.customBlack,
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    fontFamily: 'DMSans',
+  );
   static const littleText = TextStyle(
     color: AppColors.customDarkGrey,
     fontSize: 14,
@@ -37,6 +43,12 @@ class AppStyles {
     color: AppColors.customDarkGrey,
     fontSize: 12,
     fontWeight: FontWeight.w400,
+    fontFamily: 'DMSans',
+  );
+  static const bannerText = TextStyle(
+    color: AppColors.customWhite,
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
     fontFamily: 'DMSans',
   );
 }

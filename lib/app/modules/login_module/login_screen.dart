@@ -22,9 +22,13 @@ class LoginPage extends GetView<LoginController> {
               child: Obx(
                 () => controller.isLogin.value
                     ? Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.primaryColor,
-                          strokeWidth: 3,
+                        child: SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: CircularProgressIndicator(
+                            color: AppColors.primaryColor,
+                            strokeWidth: 3,
+                          ),
                         ),
                       )
                     : SingleChildScrollView(

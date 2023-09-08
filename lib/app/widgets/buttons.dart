@@ -45,3 +45,47 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
+
+class CustomCTAButton extends StatelessWidget {
+  CustomCTAButton({
+    super.key,
+    required this.text,
+    required this.onTap,
+    // this.color,
+  });
+
+  final String text;
+  // final Color color = AppColors.secondaryColor;
+  final void Function() onTap;
+  // double? width = 270;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        // width: width,
+        padding: EdgeInsets.only(
+          left: 16,
+          right: 16,
+          top: 8,
+          bottom: 8,
+        ),
+        decoration: BoxDecoration(
+          color: AppColors.secondaryColor,
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: AppStyles.littleText.copyWith(
+              fontWeight: FontWeight.w500,
+              fontSize: 13,
+              color: AppColors.customWhite,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

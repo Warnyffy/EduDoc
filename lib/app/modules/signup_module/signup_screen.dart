@@ -19,9 +19,13 @@ class SignupPage extends GetView<SignupController> {
         child: Obx(
           () => controller.isSigning.value
               ? Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.primaryColor,
-                    strokeWidth: 3,
+                  child: SizedBox(
+                    height: 24,
+                    width: 24,
+                    child: CircularProgressIndicator(
+                      color: AppColors.primaryColor,
+                      strokeWidth: 3,
+                    ),
                   ),
                 )
               : SingleChildScrollView(

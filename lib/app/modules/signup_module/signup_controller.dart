@@ -50,10 +50,16 @@ class SignupController extends GetxController {
       height: 40,
       width: 40,
       decoration: BoxDecoration(
-        color: AppColors.customLightPurple,
+        color: AppColors.primaryColor,
         borderRadius: BorderRadius.circular(25),
       ),
-      child: Center(child: Text(userName.split('').first.toUpperCase())),
+      child: Center(
+          child: Text(
+        userName.split('').first.toUpperCase(),
+        style: TextStyle(
+          color: AppColors.customWhite,
+        ),
+      )),
     );
   }
 
