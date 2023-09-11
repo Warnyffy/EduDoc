@@ -12,12 +12,14 @@ class CustomTextField extends StatelessWidget {
     required this.isObscureText,
     this.suffixIcon,
     this.onPressSuffix,
+    this.color,
   });
 
   final TextEditingController controller;
   final String hint;
   final bool isEmail;
   final bool isObscureText;
+  final Color? color;
   final IconData? suffixIcon;
   final VoidCallback? onPressSuffix;
 
@@ -30,7 +32,7 @@ class CustomTextField extends StatelessWidget {
         right: 16,
       ),
       decoration: BoxDecoration(
-        color: AppColors.customWhite,
+        color: color,
         borderRadius: BorderRadius.circular(10),
       ),
       child: TextField(

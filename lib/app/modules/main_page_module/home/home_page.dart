@@ -1,3 +1,4 @@
+import 'package:edudoc/app/modules/main_page_module/chatbot/chatbot_page.dart';
 import 'package:edudoc/app/utils/app_colors.dart';
 import 'package:edudoc/app/utils/app_styles.dart';
 import 'package:edudoc/app/widgets/buttons.dart';
@@ -66,6 +67,11 @@ class HomePage extends GetView<HomeController> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
+                    Positioned(
+                      top: 0,
+                      right: -20,
+                      child: Image.asset("assets/images/People.png"),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 25, left: 15),
                       child: Column(
@@ -95,11 +101,120 @@ class HomePage extends GetView<HomeController> {
                             width: 120,
                             child: CustomCTAButton(
                               text: "Start",
-                              onTap: () {},
+                              onTap: () {
+                                // Get.toNamed(AppRoutes.)
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ChatBotPage()),
+                                );
+                              },
                             ),
                           ),
                         ],
                       ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Text(
+                  "Worlwide Statistics",
+                  style: AppStyles.bannerText.copyWith(
+                    color: AppColors.primaryColor,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      height: 190,
+                      // width: MediaQuery.of(context).size.width,
+                      width: 170,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFAFECFE),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset("assets/images/headhunting.png"),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "44.5k",
+                            style: AppStyles.bannerText.copyWith(
+                                color: AppColors.customBlack,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          Text(
+                            "Remote Students",
+                            style:
+                                AppStyles.subHeadingText.copyWith(fontSize: 14),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          height: 80,
+                          width: 170,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFBEAFFE),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "66.8k",
+                                style: AppStyles.bannerText.copyWith(
+                                    color: AppColors.customBlack,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              Text(
+                                "Pass Students",
+                                style: AppStyles.subHeadingText
+                                    .copyWith(fontSize: 14),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Container(
+                          height: 80,
+                          width: 170,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFFFD6AD),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "38.9k",
+                                style: AppStyles.bannerText.copyWith(
+                                    color: AppColors.customBlack,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              Text(
+                                "Fail Students",
+                                style: AppStyles.subHeadingText
+                                    .copyWith(fontSize: 14),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

@@ -14,8 +14,8 @@ class SignupController extends GetxController {
   var isObscureText = true.obs;
   var isSigning = false.obs;
 
-  final GlobalKey<FormState> registerFormKey =
-      GlobalKey<FormState>(debugLabel: "__REGISTERFORMKEY");
+  // final GlobalKey<FormState> registerFormKey =
+  //     GlobalKey<FormState>(debugLabel: "__REGISTERFORMKEY");
 
   String? validateUsername(String value) {
     String pattern = r'^[#.0-9a-zA-Z\s,-]+$';
@@ -69,20 +69,34 @@ class SignupController extends GetxController {
   }
 
   void registerUser() async {
-    final isValid = registerFormKey.currentState!.validate();
-    if (!isValid) {
-      return;
+    // final isValid = registerFormKey.currentState!.validate();
+    // if (!isValid) {
+    //   return;
+    // }
+    if (nameController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        passwordController.text.isEmpty) {
+      Get.snackbar(
+        "Registration Failed",
+        "Please fill in all the informations",
+        backgroundColor: AppColors.customWhite,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        icon: Image.asset("assets/images/launcher.png"),
+        duration: const Duration(seconds: 4),
+        isDismissible: true,
+      );
+    } else {
+      isSigning.value = true;
+      takePicture(nameController.text.trim());
+
+      await _firebaseController.createUser(
+        name: nameController.text.trim(),
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+        profileImage: await takePicture(nameController.text.trim()),
+      );
     }
-    isSigning.value = true;
-    takePicture(nameController.text.trim());
 
-    await _firebaseController.createUser(
-      name: nameController.text.trim(),
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
-      profileImage: await takePicture(nameController.text.trim()),
-    );
-
-    // isSigning.value = false;
+    isSigning.value = false;
   }
 }

@@ -16,5 +16,5 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
-  UserModel user = Get.put(AuthController()).user;
+  UserModel user = Get.put(AuthController()).user!;
 }

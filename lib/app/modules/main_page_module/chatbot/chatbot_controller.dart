@@ -1,10 +1,17 @@
 import 'package:dialog_flowtter/dialog_flowtter.dart';
+import 'package:edudoc/app/services/auth.controller.dart';
 import 'package:edudoc/app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
+
+import '../../../models/user_model.dart';
 
 class ChatBotController extends GetxController {
   late DialogFlowtter dialogFlowtter;
+  UserModel user = Get.put(AuthController()).user!;
+  FlutterTts flutterTts = FlutterTts();
+
   final messageController = TextEditingController();
   RxList<Map<String, dynamic>> messages = <Map<String, dynamic>>[].obs;
 
@@ -29,9 +36,6 @@ class ChatBotController extends GetxController {
     } else {
       addMessage(Message(text: DialogText(text: [text])), true);
       update();
-      // setState(() {
-      //   addMessage(Message(text: DialogText(text: [text])), true);
-      // });
 
       DetectIntentResponse response = await dialogFlowtter.detectIntent(
           queryInput: QueryInput(text: TextInput(text: text)));
@@ -40,17 +44,23 @@ class ChatBotController extends GetxController {
         addMessage(Message(
             text: DialogText(text: ["Sorry No response", "Try later."])));
       } else {
+        debugPrint("${response.message!.text!.text!.first}");
         addMessage(response.message!);
+        // log(response.message.toString());
+        await speak(response.message!.text!.text!.first);
         update();
-        // setState(() {
-        //   addMessage(response.message!);
-        // });
       }
     }
   }
 
   addMessage(Message message, [bool isUserMessage = false]) {
     messages.add({'message': message, 'isUserMessage': isUserMessage});
+  }
+
+  Future<void> speak(String text) async {
+    await flutterTts.setLanguage('en-US'); // Set the language
+    await flutterTts.setPitch(1.0); // Set the pitch (1.0 is the default)
+    await flutterTts.speak(text);
   }
 
   // void response(String query) async {

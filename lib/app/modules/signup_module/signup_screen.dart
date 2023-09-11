@@ -46,78 +46,79 @@ class SignupPage extends GetView<SignupController> {
                         ),
                         SizedBox(height: 15),
                         Text(
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
+                          'Thanks for choosing us to do your churn predictions, please input the required information below.',
                           style: AppStyles.subHeadingText,
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 60),
-                        Form(
-                          key: controller.registerFormKey,
-                          child: Column(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Name",
-                                    style: AppStyles.textfieldText,
-                                  ),
-                                  SizedBox(height: 10),
-                                  CustomTextField(
-                                    controller: controller.nameController,
-                                    hint: "Andy Warren",
-                                    isEmail: false,
-                                    isObscureText: false,
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 15),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Email",
-                                    style: AppStyles.textfieldText,
-                                  ),
-                                  SizedBox(height: 10),
-                                  CustomTextField(
-                                    controller: controller.emailController,
-                                    hint: "example@email.com",
+                        // Form(
+                        //   key: controller.registerFormKey,
+                        // child:
+                        Column(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Name",
+                                  style: AppStyles.textfieldText,
+                                ),
+                                SizedBox(height: 10),
+                                CustomTextField(
+                                  controller: controller.nameController,
+                                  hint: "Enter name",
+                                  isEmail: false,
+                                  isObscureText: false,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 15),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Email",
+                                  style: AppStyles.textfieldText,
+                                ),
+                                SizedBox(height: 10),
+                                CustomTextField(
+                                  controller: controller.emailController,
+                                  hint: "example@email.com",
+                                  isEmail: true,
+                                  isObscureText: false,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 15),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Password",
+                                  style: AppStyles.textfieldText,
+                                ),
+                                SizedBox(height: 10),
+                                Obx(
+                                  () => CustomTextField(
+                                    controller: controller.passwordController,
+                                    hint: "* * * * * * * *",
                                     isEmail: true,
-                                    isObscureText: false,
+                                    isObscureText:
+                                        controller.isObscureText.value,
+                                    suffixIcon: controller.isObscureText.value
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                    onPressSuffix: () {
+                                      controller.isObscureText.value =
+                                          !controller.isObscureText.value;
+                                    },
                                   ),
-                                ],
-                              ),
-                              SizedBox(height: 15),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Password",
-                                    style: AppStyles.textfieldText,
-                                  ),
-                                  SizedBox(height: 10),
-                                  Obx(
-                                    () => CustomTextField(
-                                      controller: controller.passwordController,
-                                      hint: "* * * * * * * *",
-                                      isEmail: true,
-                                      isObscureText:
-                                          controller.isObscureText.value,
-                                      suffixIcon: controller.isObscureText.value
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
-                                      onPressSuffix: () {
-                                        controller.isObscureText.value =
-                                            !controller.isObscureText.value;
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
+                        // ),
 
                         SizedBox(
                           height: 24,
@@ -149,7 +150,7 @@ class SignupPage extends GetView<SignupController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "You don't have an account yet?",
+                              "Already have an account ? ",
                               style: AppStyles.littleText,
                             ),
                             GestureDetector(

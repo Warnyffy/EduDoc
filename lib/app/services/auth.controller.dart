@@ -8,7 +8,7 @@ import '../models/user_model.dart';
 class AuthController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  late UserModel user;
+  UserModel? user;
 
   @override
   void onInit() {

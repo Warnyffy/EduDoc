@@ -51,4 +51,10 @@ class AppStyles {
     fontWeight: FontWeight.w500,
     fontFamily: 'DMSans',
   );
+  static const bottomSheetTitle = TextStyle(
+    color: AppColors.primaryColor,
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    fontFamily: 'DMSans',
+  );
 }

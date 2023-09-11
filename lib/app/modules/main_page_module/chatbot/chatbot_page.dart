@@ -1,5 +1,6 @@
 import 'package:edudoc/app/modules/main_page_module/chatbot/widgets/messages.dart';
 import 'package:edudoc/app/utils/app_colors.dart';
+import 'package:edudoc/app/utils/app_styles.dart';
 import 'package:edudoc/app/widgets/textfields.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,16 +12,57 @@ class ChatBotPage extends GetView<ChatBotController> {
   Widget build(BuildContext context) {
     return GetBuilder(
         init: Get.put(ChatBotController()),
-        builder: (controller) {
+        builder: (ChatBotController controller) {
           return Scaffold(
             appBar: AppBar(
-                backgroundColor: AppColors.primaryColor,
-                title: Text('ChatBotPage')),
+              elevation: 0,
+              backgroundColor: AppColors.primaryColor,
+              title: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'EduDoc',
+                    style: AppStyles.littleText.copyWith(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18,
+                      color: AppColors.customWhite,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        height: 10,
+                        width: 10,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.customGreen,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        "Online",
+                        style: AppStyles.littleText.copyWith(
+                          color: AppColors.customWhite,
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
             body: Container(
+              padding: EdgeInsets.only(top: 20, left: 20),
+              color: AppColors.customWhite2,
               child: Column(
                 children: [
                   Expanded(
-                    child: MessagesScreen(messgaes: controller.messages),
+                    child: MessagesScreen(
+                      messgaes: controller.messages,
+                      user: controller.user,
+                    ),
                   ),
                   Row(
                     children: [
