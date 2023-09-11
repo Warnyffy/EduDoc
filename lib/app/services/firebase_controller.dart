@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:edudoc/app/services/auth.controller.dart';
 import 'package:edudoc/app/utils/app_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -13,6 +14,7 @@ import '../routes/app_routes.dart';
 
 class FirebaseController extends GetxController {
   static FirebaseController instance = Get.find();
+  var auth = Get.put(AuthController());
 
   String _getImageExtension(Uint8List byteData) {
     return lookupMimeType('', headerBytes: byteData)!.split('/').last;
@@ -134,6 +136,7 @@ class FirebaseController extends GetxController {
       duration: Duration(seconds: 5),
       isDismissible: true,
     );
-    Get.offAllNamed(AppRoutes.bottomnavScreen);
+    auth.returnUser();
+    Get.offAllNamed(AppRoutes.succesScreen);
   }
 }

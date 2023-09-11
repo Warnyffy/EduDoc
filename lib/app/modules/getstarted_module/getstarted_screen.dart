@@ -53,12 +53,12 @@ class GetstartedPage extends GetView<GetstartedController> {
                               "Prediction",
                               style: AppStyles.largeText.copyWith(
                                 color: AppColors.secondaryColor,
-                                decoration: TextDecoration.underline,
+                                // decoration: TextDecoration.underline,
                               ),
                             ),
                             SizedBox(width: size.width / 30),
                             Text(
-                              "Here !",
+                              "Here",
                               style: AppStyles.largeText,
                             ),
                           ],
